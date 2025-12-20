@@ -28,14 +28,22 @@ jobs:
       
       - name: Install Python dependencies
         run: |
+          pip uninstall -y pybrsa 2>/dev/null || true
           pip install pybrsa jupyter nbformat pyyaml pandas matplotlib seaborn
-          python -c "from pybrsa.utils import plaka_to_city; print('Import OK')"
+          python -c "from pybrsa.utils import plaka_to_city; print('Import SUCCESS')"
       
       - name: Generate API Documentation
         run: |
           pip install mkdocs mkdocstrings mkdocstrings-python
           mkdocs build --site-dir mkdocs_build
           cp mkdocs_build/reference/index.html docs/api.html
+      
+      # NEW: Clean cache before Quarto
+      - name: Clean Python Cache
+        run: |
+          rm -rf ~/.local/lib/python3.*/site-packages/pybrsa*
+          echo "Cache cleaned"
+      
       
       - name: Set Quarto Python Path
         run: |
