@@ -3,7 +3,7 @@ project:
   output-dir: _site
   
 website:
-  title: "pybrsa - Turkish Banking Data"
+  title: "pybrsa - Turkish Banking Sector Data"
   site-url: "https://obakis.github.io/pybrsa/"
   repo-url: "https://github.com/obakis/pybrsa"
   repo-actions: [edit, issue]
@@ -16,14 +16,15 @@ website:
         text: Getting Started
       - href: api.qmd
         text: API Reference
-      - href: examples.qmd
-        text: Examples
+#      - href: examples.qmd
+#        text: Examples
       
   sidebar:
     style: "floating"
     
   page-footer:
-    left: "© 2024 pybrsa"
+    left: "© Ozan Bakış"
+    center: "Contact: ozanbakis@gmail.com"
     right: "Built with Quarto"
 
 format:
