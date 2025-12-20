@@ -1,0 +1,32 @@
+project:
+  type: website
+  output-dir: _site
+  
+website:
+  title: "pybrsa - Turkish Banking Data"
+  site-url: "https://obakis.github.io/pybrsa/"
+  repo-url: "https://github.com/obakis/pybrsa"
+  repo-actions: [edit, issue]
+  
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: introduction.qmd
+        text: Getting Started
+      - href: api.qmd
+        text: API Reference
+      - href: examples.qmd
+        text: Examples
+      
+  sidebar:
+    style: "floating"
+    
+  page-footer:
+    left: "© 2024 pybrsa"
+    right: "Built with Quarto"
+
+format:
+  html:
+    theme: cosmo
+    toc: true

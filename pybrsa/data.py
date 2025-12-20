@@ -1,13 +1,16 @@
 import pandas as pd
-import os
+from importlib.resources import files
+from io import StringIO
 
-# Get the directory where data.py is located
-_current_dir = os.path.dirname(os.path.abspath(__file__))
-_data_dir = os.path.join(_current_dir, 'data')
+# Load CSVs using importlib.resources 
+def _load_csv(filename):
+    """Load CSV file from package data directory"""
+    csv_content = files('pybrsa').joinpath('data', filename).read_text(encoding='utf-8')
+    return pd.read_csv(StringIO(csv_content))
 
-# Load CSVs
-finturk_tables = pd.read_csv(os.path.join(_data_dir, 'finturk_tables.csv'))
-bddk_tables = pd.read_csv(os.path.join(_data_dir, 'bddk_tables.csv'))
-cities = pd.read_csv(os.path.join(_data_dir, 'cities.csv'))
-finturk_groups = pd.read_csv(os.path.join(_data_dir, 'finturk_groups.csv'))
-bddk_groups = pd.read_csv(os.path.join(_data_dir, 'bddk_groups.csv'))
+# Load all data files
+finturk_tables = _load_csv('finturk_tables.csv')
+bddk_tables = _load_csv('bddk_tables.csv')
+cities = _load_csv('cities.csv')
+finturk_groups = _load_csv('finturk_groups.csv')
+bddk_groups = _load_csv('bddk_groups.csv')

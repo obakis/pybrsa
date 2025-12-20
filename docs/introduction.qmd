@@ -1,0 +1,305 @@
+---
+title: "Getting Started with Turkish Banking Data"
+format: html
+engine: jupyter
+execute:
+  warning: false
+  message: false
+kernel: python3-pipx
+---
+
+```{python}
+#| label: setup
+#| include: false
+#/usr/local/bin/quarto render introduction.qmd --to html
+# open introduction.html
+import warnings
+warnings.filterwarnings('ignore')
+```
+
+# Introduction to the `pybrsa` package
+
+The 'pybrsa' package facilitates programmatic access to Turkish banking sector data from the Turkish Banking Regulation and Supervision Agency (BRSA, known as BDDK in Turkish). The package provides R users with a clean interface to fetch monthly and quarterly banking statistics, financial reports, and sectoral indicators directly from BRSA's official APIs. This vignette demonstrates a complete workflow: from discovering available data to fetching it and performing a basic analysis.
+
+## Installation and Setup
+
+Install pybrsa from PyPI
+
+```{python}
+#| eval: false
+pip install pybrsa
+```
+
+Or install the development version from GitHub
+
+```{python}
+#| echo: true
+#| eval: false
+pip install git+https://github.com/obakis/pybrsa.git
+
+```
+
+```{python}
+# Import the package
+import pybrsa
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime
+
+# Set plot style
+plt.style.use('seaborn-v0_8-whitegrid')
+sns.set_palette("husl")
+```
+
+## Part 1: Discovering Available Data
+
+Before requesting data, it's useful to explore what tables and banking groups are available from BDDK's two main portals.   Both portals are official sources, but they organize the data differently:
+
+  - The [Monthly Bulletin Portal](https://www.bddk.org.tr/bultenaylik) provides 
+high-level, summary reports designed for general consumption and quick  overviews of monthly trends without any geographic coverage.
+  - The [FinTurk Data System](https://www.bddk.org.tr/bultenfinturk/) provides granular, detailed data, including statistics broken down by province, whereas the standard Monthly Bulletin offers national-level aggregates.
+
+**Important note**: Currently, only a single `grup_kod` can be specified per request.  The underlying BDDK API supports multiple `grup_kod` codes, and this functionality will be added in a future version.
+
+### Monthly Bulletin Tables
+
+Monthly Bulletin provides high-level, national aggregate statistics.
+
+```{python}
+# List available tables in the Monthly Bulletin
+bulletin_tables = pybrsa.list_tables(source="bddk", lang="en")
+print("## Monthly Bulletin Tables")
+print(f"**Total tables available:** {len(bulletin_tables)}")
+print("\n**First 10 tables:**")
+display(bulletin_tables.head(10))
+
+# List available banking groups for the Monthly Bulletin
+bulletin_groups = pybrsa.list_groups(source="bddk", lang="en")
+print("\n## Monthly Bulletin Banking Groups")
+print(f"**Total groups available:** {len(bulletin_groups)}")
+print("\n**First 10 groups:**")
+display(bulletin_groups.head(10))
+```
+
+### FinTurk Tables
+
+FinTurk system provides more granular data, including provincial breakdowns.
+
+```{python}
+# List available tables in FinTurk
+finturk_tables = pybrsa.list_tables(source="finturk", lang="en")
+print("## FinTurk Tables")
+print(f"**Total tables available:** {len(finturk_tables)}")
+print("\n**First 10 tables:**")
+display(finturk_tables.head(10))
+
+# List available banking groups for FinTurk
+finturk_groups = pybrsa.list_groups(source="finturk", lang="en")
+print("\n## FinTurk Banking Groups")
+print(f"**Total groups available:** {len(finturk_groups)}")
+print("\n**First 10 groups:**")
+display(finturk_groups.head(10))
+
+# List of cities for FinTurk
+cities = pybrsa.list_cities()
+print("\n## Available Cities")
+print(f"**Total cities:** {len(cities)}")
+print("\n**First 10 cities:**")
+display(cities.head(10))
+```
+
+## Part 2: Fetching Monthly Bulletin Data
+
+Let's fetch "Table 4: Consumer Loans" for public banks (`grup_kod = 10006`) between January 2020 and December 2020.
+
+```{python}
+# Fetch data from Monthly Bulletin
+my_dat = pybrsa.fetch_bddk(
+    start_year=2020,
+    start_month=1,
+    end_year=2020,
+    end_month=12,
+    table_no=4,
+    grup_kod=10001,
+    verbose=True
+)
+
+print(f"**Dataset dimensions:** {my_dat.shape}")
+print(f"**Dataset columns:** {list(my_dat.columns)}")
+print("\n**First 5 rows:**")
+display(my_dat.head())
+```
+
+Let's compare "Consumer Loans - Housing" and "Consumer Loans - Personal Finance" over time.
+
+```{python}
+#| label: plot-consumer-loans
+#| fig-cap: "Consumer Loans Trends, Jan 2020-Dec 2020 (TRY)"
+#| fig-alt: "Line chart showing trends in consumer loans for housing and personal finance from January to December 2020"
+#| fig-width: 10
+#| fig-height: 6
+
+# Filter and prepare data for visualization
+if 'Ad' in my_dat.columns and 'TRY' in my_dat.columns and 'period' in my_dat.columns:
+    # Filter for specific loan types
+    cols_to_keep = ["Consumer Loans - Housing", "Consumer Loans - Personal Finance"]
+    filtered_data = my_dat[my_dat['Ad'].isin(cols_to_keep)].copy()
+    
+    # Convert period to datetime
+    filtered_data['date'] = pd.to_datetime(filtered_data['period'] + '-01', format='%Y-%m-%d')
+    
+    # Create the plot
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Plot each loan type
+    for loan_type in cols_to_keep:
+        loan_data = filtered_data[filtered_data['Ad'] == loan_type]
+        ax.plot(loan_data['date'], loan_data['TRY'], 
+                marker='o', linewidth=2, markersize=6, label=loan_type)
+    
+    # Format x-axis
+    ax.xaxis.set_major_locator(plt.matplotlib.dates.MonthLocator(interval=2))
+    ax.xaxis.set_major_formatter(plt.matplotlib.dates.DateFormatter('%b %Y'))
+    plt.xticks(rotation=45, ha='right')
+    
+    # Format y-axis
+    ax.yaxis.set_major_formatter(plt.matplotlib.ticker.StrMethodFormatter('{x:,.0f}'))
+    
+    # Add labels and title
+    ax.set_title('Consumer Loans Trends, Jan 2020-Dec 2020 (TRY)', fontsize=14, fontweight='bold')
+    ax.set_xlabel('')
+    ax.set_ylabel('TRY (millions)')
+    ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    print(f"**Summary statistics for selected loan types:**")
+    summary_stats = filtered_data.groupby('Ad')['TRY'].agg(['mean', 'min', 'max', 'std']).round(2)
+    display(summary_stats)
+else:
+    print("Required columns not found in the dataset")
+```
+
+## Part 3: Fetching Granular FinTurk Data
+
+Now let's explore the more detailed FinTurk data. We'll fetch "Table 2: Deposits" for all banks (`grup_kod = 10001`), all provinces over 2023 and 2024.
+
+
+```{python}
+# Fetch data from FinTurk
+my_dat2 = pybrsa.fetch_finturk(
+    start_year=2023,
+    start_month=3,
+    end_year=2024,
+    end_month=12,
+    table_no=2,
+    grup_kod=10001,
+    il=0,  # 0 means all provinces
+    verbose=False
+)
+
+print(f"**Dataset dimensions:** {my_dat2.shape}")
+print(f"**Dataset columns:** {list(my_dat2.columns)}")
+print("\n**First 5 rows:**")
+display(my_dat2.head())
+```
+
+FinTurk data includes a province column (`il`). Let's examine the share of selected provinces in total deposits ove 2020-2024 period.
+
+```{python}
+#| label: plot-deposit-shares
+#| fig-cap: "Share of Selected Provinces in Deposits, 2023-2024 (%)"
+#| fig-alt: "Line chart showing deposit shares for selected Turkish provinces from 2023 to 2024"
+#| fig-width: 10
+#| fig-height: 6
+
+if 'il_adi' in my_dat2.columns and 'period' in my_dat2.columns and 'Toplam Mevduat' in my_dat2.columns:
+    # Select provinces of interest
+    sel_cities = ["ADANA", "MALATYA", "MUĞLA", "KAYSERİ"]
+    
+    # Prepare data
+    plot_data = my_dat2[['il_adi', 'period', 'Toplam Mevduat']].copy()
+    plot_data = plot_data.rename(columns={'il_adi': 'city', 'Toplam Mevduat': 'deposit'})
+    
+    # Convert period to datetime
+    plot_data['date'] = pd.to_datetime(plot_data['period'] + '-01', format='%Y-%m-%d')
+    
+    # Filter for selected cities
+    plot_data = plot_data[plot_data['city'].isin(sel_cities)]
+    
+    # Calculate total deposits per period
+    total_deposits = my_dat2.groupby('period')['Toplam Mevduat'].sum().reset_index()
+    total_deposits = total_deposits.rename(columns={'Toplam Mevduat': 'total_deposit'})
+    
+    # Merge and calculate share
+    plot_data = pd.merge(plot_data, total_deposits, on='period')
+    plot_data['share'] = (plot_data['deposit'] / plot_data['total_deposit']) * 100
+    
+    # Create the plot
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Plot each city
+    for city in sel_cities:
+        city_data = plot_data[plot_data['city'] == city]
+        ax.plot(city_data['date'], city_data['share'], 
+                marker='o', linewidth=2, markersize=6, label=city)
+    
+    # Format x-axis
+    ax.xaxis.set_major_locator(plt.matplotlib.dates.MonthLocator(interval=3))
+    ax.xaxis.set_major_formatter(plt.matplotlib.dates.DateFormatter('%b %Y'))
+    plt.xticks(rotation=45, ha='right')
+    
+    # Add labels and title
+    ax.set_title('Share of Selected Provinces in Deposits, 2023-2024 (%)', fontsize=14, fontweight='bold')
+    ax.set_xlabel('')
+    ax.set_ylabel('Share (%)')
+    ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    # Show summary statistics
+    print(f"**Average deposit share by province (2023-2024):**")
+    avg_shares = plot_data.groupby('city')['share'].mean().sort_values(ascending=False).round(3)
+    display(avg_shares.to_frame('Average Share (%)'))
+else:
+    print("Required columns not found in the dataset")
+```
+
+## Part 4: Saving Your Results
+
+The `save_data()` function allows you to export results in various formats for use in other tools.
+
+```{python}
+#| eval: false
+
+import pybrsa
+import tempfile
+
+# Save to different formats
+pybrsa.save_data(my_dat, "filename_you_prefer", format="csv")
+pybrsa.save_data(my_dat, "filename_you_prefer", format="pkl")  
+pybrsa.save_data(my_dat, "filename_you_prefer", format="xlsx")
+
+# Save to Parquet
+my_dat.to_parquet("filename_you_prefer.parquet", index=False)
+
+# With tempfile
+temp_path = pybrsa.tempfile_base()
+pybrsa.save_data(my_dat, temp_path, format="csv")
+print(f"Data saved to: {temp_path}.csv")
+```
+
+
+## Next Steps
+
+This vignette demonstrated the basic workflow of the `pyrbrs` package. To learn more:
+
+1.  Explore all functions in the package [API reference](api.html){.uri} 
+2.  Try different tables and banking groups using `list_tables()` and `list_groups()`.
+3.  Check out the [`rbrsa` package](https://github.com/obakis/rbrsa){.uri} for similar functionality in R. 
+

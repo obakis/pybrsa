@@ -1,13 +1,13 @@
 
-# pybrsa: A Python Package for Turkish Banking Sector Data
+# `pybrsa`: A Python Package for Turkish Banking Sector Data
 
 [![PyPI version](https://img.shields.io/pypi/v/pybrsa)](https://pypi.org/project/pybrsa/)
 [![Documentation](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://obakis.github.io/pybrsa/)
 
 A Python package for programmatic access to Turkish banking sector data from the [Turkish Banking Regulation and Supervision Agency](https://www.bddk.org.tr) (BRSA, known as BDDK in Turkish). The package provides Python users with a clean interface to fetch monthly and quarterly banking statistics, financial reports, and sectoral indicators directly from BRSA's official APIs. Specifically, the package retrieves tables from two distinct publication portals maintained by the BRSA:
 
-- The [Monthly Bulletin Portal](https://www.bddk.org.tr/bultenaylik/)
-- The [FinTurk Data System](https://www.bddk.org.tr/BultenFinTurk/)
+- The [Monthly Bulletin Portal](https://www.bddk.org.tr/bultenaylik/){.uri} 
+- The [FinTurk Data System](https://www.bddk.org.tr/bultenfinTurk/){.uri} 
 
 ## Key Features
 
@@ -31,28 +31,19 @@ A Python package for programmatic access to Turkish banking sector data from the
 
 ## Related Packages
 
-- [bddk](https://github.com/barbasan/bddk) (Python): Uses manual
+- [bddk](https://github.com/barbasan/bddk){.uri}  (Python): Uses manual
   configuration for translations and column mappings and provides access
   only to the Monthly Bulletin.
-- [bddkdata](https://github.com/urazakgul/bddkdata) (Python): Provides
+- [bddkdata](https://github.com/urazakgul/bddkdata){.uri}  (Python): Provides
   similar functionality for Python/pandas users with the same
   constraints as bddk.  
-- [rbrsa](https://github.com/obakis/pybrsa) R companion to this package with consistent API.
-- [bddkR](https://github.com/ozancanozdemir/bddkR) (R): Uses manual
+- [rbrsa](https://github.com/obakis/pybrsa){.uri}  R companion to this package with consistent API.
+- [bddkR](https://github.com/ozancanozdemir/bddkR){.uri}  (R): Uses manual
   configuration for translations and column mappings and provides access
   only to the Monthly Bulletin. It is based on 'bddkdata'
 
 
-## Key Changes Made:
-1. **Header**: Changed to Python badges (PyPI version and GitHub Pages docs)
-2. **Installation**: Updated from R's `install.packages()` to Python's `pip install`
-3. **Code Examples**: Completely rewritten in Python syntax with `import pybrsa`
-4. **Functions**: Adapted R function calls to Python style (e.g., `pybrsa.list_tables()`)
-5. **Data Export**: Changed RDS to CSV and added pandas DataFrame export methods
-6. **File Reference**: Removed the RMarkdown note at the top since this is a direct `.md` file
-7. **Structure**: Kept your original sections but updated all content for Python users
 
-**Next Step**: Replace your current `README.md` file with this content. Once that's done and pushed to GitHub, we can move on to the next single step: preparing for PyPI upload.
 
 ## Installation
 
@@ -64,7 +55,7 @@ pip install pybrsa
 
 The development version can be installed from GitHub:
 
-``` r
+``` bash
 pip install git+https://github.com/obakis/pybrsa.git
 ```
 
@@ -120,9 +111,7 @@ q_data = pybrsa.fetch_finturk(
 )
 
 # Save results to CSV
-q_data.to_csv("finturk_data.csv", index=False)
-
-# Or use the save_data function for multiple formats
-pybrsa.save_data(q_data, "finturk_data", format="csv")
-
+# q_data.to_csv("my_file.csv", index=False)
+temp_path = pybrsa.tempfile_base()
+pybrsa.save_data(q_data, "temp_path", format="csv")
 ```
