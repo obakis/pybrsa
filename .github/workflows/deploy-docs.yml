@@ -28,16 +28,23 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          # Install everything
+          # Clean old installations
+          pip uninstall -y pybrsa 2>/dev/null || true
+          pip uninstall -y typing 2>/dev/null || true
+          
+          # Install fresh
           pip install pybrsa jupyter nbformat pyyaml pandas matplotlib seaborn
-          # Test
+          
+          # Force reinstall typing (ensure it's there)
+          pip install --force-reinstall typing
+          
+          # Verify
+          python -c "from typing import Union; print('Union import OK')"
           python -c "from pybrsa.utils import plaka_to_city; print('pybrsa import OK')"
       
       - name: Set Quarto Python Path
         run: |
-          # Tell Quarto which Python to use
           PYTHON_PATH=$(which python)
-          echo "Using Python at: $PYTHON_PATH"
           echo "QUARTO_PYTHON=$PYTHON_PATH" >> $GITHUB_ENV
 
       - name: Render Quarto website
