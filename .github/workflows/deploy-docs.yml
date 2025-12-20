@@ -25,14 +25,13 @@ jobs:
       
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-      
+
       - name: Install Python dependencies
         run: |
           pip install pipx
           pipx install jupyterlab --include-deps
           pipx inject jupyterlab pybrsa pandas matplotlib seaborn
-          # Set QUARTO_PYTHON for the workflow
-          echo "QUARTO_PYTHON=$HOME/.local/pipx/venvs/jupyterlab/bin/python" >> $GITHUB_ENV
+          # No QUARTO_PYTHON setting - let Quarto find it automatically
       
       - name: Render Quarto website
         run: |
