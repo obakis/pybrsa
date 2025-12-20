@@ -38,13 +38,6 @@ jobs:
           mkdocs build --site-dir mkdocs_build
           cp mkdocs_build/reference/index.html docs/api.html
       
-      # NEW: Clean cache before Quarto
-      - name: Clean Python Cache
-        run: |
-          rm -rf ~/.local/lib/python3.*/site-packages/pybrsa*
-          echo "Cache cleaned"
-      
-      
       - name: Set Quarto Python Path
         run: |
           echo "QUARTO_PYTHON=$(which python)" >> $GITHUB_ENV
