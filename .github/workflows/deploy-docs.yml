@@ -28,10 +28,12 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          pip install pipx
-          pipx install jupyterlab --include-deps
-          pipx inject jupyterlab pybrsa pandas matplotlib seaborn
-          # No QUARTO_PYTHON setting - let Quarto find it automatically
+          # Install everything directly with pip (no pipx)
+          pip install jupyter nbformat pyyaml
+          pip install pybrsa pandas matplotlib seaborn
+          
+          # Verify installation
+          python -c "import jupyter; import nbformat; import pybrsa; print('All imports OK')"
       
       - name: Render Quarto website
         run: |
