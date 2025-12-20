@@ -25,28 +25,32 @@ jobs:
       
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-
+      
+      - name: Debug Python Environment
+        run: |
+          echo "Python: $(python --version)"
+          echo "Path: $(which python)"
+      
       - name: Install Python dependencies
         run: |
-          # Clean old installations
+          # Force install from local source
           pip uninstall -y pybrsa 2>/dev/null || true
-          pip uninstall -y typing 2>/dev/null || true
+          pip install -e .
+          pip install jupyter nbformat pyyaml pandas matplotlib seaborn
           
-          # Install fresh
-          pip install pybrsa jupyter nbformat pyyaml pandas matplotlib seaborn
-          
-          # Force reinstall typing (ensure it's there)
-          pip install --force-reinstall typing
-          
-          # Verify
-          python -c "from typing import Union; print('Union import OK')"
-          python -c "from pybrsa.utils import plaka_to_city; print('pybrsa import OK')"
+          # Critical test
+          python -c "
+          import pybrsa
+          print('pybrsa file:', pybrsa.__file__)
+          assert 'site-packages' not in pybrsa.__file__, 'Should be local install!'
+          from pybrsa.utils import plaka_to_city
+          print('SUCCESS: Import works')
+          "
       
       - name: Set Quarto Python Path
         run: |
-          PYTHON_PATH=$(which python)
-          echo "QUARTO_PYTHON=$PYTHON_PATH" >> $GITHUB_ENV
-
+          echo "QUARTO_PYTHON=$(which python)" >> $GITHUB_ENV
+      
       - name: Render Quarto website
         run: |
           cd docs
