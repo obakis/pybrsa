@@ -26,37 +26,20 @@ jobs:
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
       
-      - name: Debug Python Environment
-        run: |
-          echo "Python: $(python --version)"
-          echo "Path: $(which python)"
-      
       - name: Install Python dependencies
         run: |
-          # Force install from local source
-          pip uninstall -y pybrsa 2>/dev/null || true
-          pip install -e .
-          pip install jupyter nbformat pyyaml pandas matplotlib seaborn
-          
-          # Critical test
-          python -c "
-          import pybrsa
-          print('pybrsa file:', pybrsa.__file__)
-          assert 'site-packages' not in pybrsa.__file__, 'Should be local install!'
-          from pybrsa.utils import plaka_to_city
-          print('SUCCESS: Import works')
-          "
+          pip install pybrsa jupyter nbformat pyyaml pandas matplotlib seaborn
+          python -c "from pybrsa.utils import plaka_to_city; print('Import OK')"
       
-      - name: Set Quarto Python Path
-        run: |
-          echo "QUARTO_PYTHON=$(which python)" >> $GITHUB_ENV
-
-     - name: Generate API Docs
+      - name: Generate API Documentation
         run: |
           pip install mkdocs mkdocstrings mkdocstrings-python
           mkdocs build --site-dir mkdocs_build
           cp mkdocs_build/reference/index.html docs/api.html
-
+      
+      - name: Set Quarto Python Path
+        run: |
+          echo "QUARTO_PYTHON=$(which python)" >> $GITHUB_ENV
       
       - name: Render Quarto website
         run: |
