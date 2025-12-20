@@ -50,6 +50,13 @@ jobs:
       - name: Set Quarto Python Path
         run: |
           echo "QUARTO_PYTHON=$(which python)" >> $GITHUB_ENV
+
+     - name: Generate API Docs
+        run: |
+          pip install mkdocs mkdocstrings mkdocstrings-python
+          mkdocs build --site-dir mkdocs_build
+          cp mkdocs_build/reference/index.html docs/api.html
+
       
       - name: Render Quarto website
         run: |

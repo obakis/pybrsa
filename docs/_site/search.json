@@ -130,20 +130,41 @@
     "href": "api.html",
     "title": "API Reference",
     "section": "",
-    "text": "```{python} #| eval: false import pybrsa"
+    "text": "import pybrsa\n\n# List available data tables\ntables = pybrsa.list_tables(source=\"bddk\", lang=\"en\")\nprint(f\"Available tables: {len(tables)}\")\n\n\n\n\n\n# Fetch Monthly Bulletin data\ndata = pybrsa.fetch_bddk(\n    start_year=2020,\n    start_month=1,\n    end_year=2020,\n    end_month=12,\n    table_no=4,\n    grup_kod=10001\n)\n\n\n\n\n\n# Fetch granular provincial data\nprovince_data = pybrsa.fetch_finturk(\n    start_year=2024,\n    start_month=1,\n    end_year=2024,\n    end_month=1,\n    table_no=2,\n    grup_kod=10001,\n    il=0  # All provinces\n)\n\n\n\n\n\n\n\n\nimport pybrsa\n\ndata = pybrsa.fetch_bddk(...)\n# Save to different formats\npybrsa.save_data(data, \"my_data\", format=\"csv\")\npybrsa.save_data(data, \"my_data\", format=\"pkl\")  # Python's .rds\npybrsa.save_data(data, \"my_data\", format=\"xlsx\")\n\n\n\n\n\n# Create temporary file path\ntemp_path = pybrsa.tempfile_base()\nprint(f\"Temporary path: {temp_path}\")"
   },
   {
     "objectID": "api.html#core-data-fetching",
     "href": "api.html#core-data-fetching",
     "title": "API Reference",
     "section": "",
-    "text": "```{python} #| eval: false import pybrsa"
+    "text": "import pybrsa\n\n# List available data tables\ntables = pybrsa.list_tables(source=\"bddk\", lang=\"en\")\nprint(f\"Available tables: {len(tables)}\")\n\n\n\n\n\n# Fetch Monthly Bulletin data\ndata = pybrsa.fetch_bddk(\n    start_year=2020,\n    start_month=1,\n    end_year=2020,\n    end_month=12,\n    table_no=4,\n    grup_kod=10001\n)\n\n\n\n\n\n# Fetch granular provincial data\nprovince_data = pybrsa.fetch_finturk(\n    start_year=2024,\n    start_month=1,\n    end_year=2024,\n    end_month=1,\n    table_no=2,\n    grup_kod=10001,\n    il=0  # All provinces\n)"
   },
   {
     "objectID": "api.html#utility-functions",
     "href": "api.html#utility-functions",
     "title": "API Reference",
-    "section": "Utility Functions",
-    "text": "Utility Functions\n\n`save_data()`\n```{python} #| eval: false import pybrsa\ndata = pybrsa.fetch_bddk(…) # Save to different formats pybrsa.save_data(data, “my_data”, format=“csv”) pybrsa.save_data(data, “my_data”, format=“pkl”) # Python’s .rds pybrsa.save_data(data, “my_data”, format=“xlsx”) ```\n\n\n`tempfile_base()`\n```{python} #| eval: false # Create temporary file path temp_path = pybrsa.tempfile_base() print(f”Temporary path: {temp_path}“) ```"
+    "section": "",
+    "text": "import pybrsa\n\ndata = pybrsa.fetch_bddk(...)\n# Save to different formats\npybrsa.save_data(data, \"my_data\", format=\"csv\")\npybrsa.save_data(data, \"my_data\", format=\"pkl\")  # Python's .rds\npybrsa.save_data(data, \"my_data\", format=\"xlsx\")\n\n\n\n\n\n# Create temporary file path\ntemp_path = pybrsa.tempfile_base()\nprint(f\"Temporary path: {temp_path}\")"
+  },
+  {
+    "objectID": "api_manual_backup.html",
+    "href": "api_manual_backup.html",
+    "title": "API Reference",
+    "section": "",
+    "text": "import pybrsa\n\n# List available data tables\ntables = pybrsa.list_tables(source=\"bddk\", lang=\"en\")\nprint(f\"Available tables: {len(tables)}\")\n\n\n\n\n\n# Fetch Monthly Bulletin data\ndata = pybrsa.fetch_bddk(\n    start_year=2020,\n    start_month=1,\n    end_year=2020,\n    end_month=12,\n    table_no=4,\n    grup_kod=10001\n)\n\n\n\n\n\n# Fetch granular provincial data\nprovince_data = pybrsa.fetch_finturk(\n    start_year=2024,\n    start_month=1,\n    end_year=2024,\n    end_month=1,\n    table_no=2,\n    grup_kod=10001,\n    il=0  # All provinces\n)\n\n\n\n\n\n\n\n\nimport pybrsa\n\ndata = pybrsa.fetch_bddk(...)\n# Save to different formats\npybrsa.save_data(data, \"my_data\", format=\"csv\")\npybrsa.save_data(data, \"my_data\", format=\"pkl\")  # Python's .rds\npybrsa.save_data(data, \"my_data\", format=\"xlsx\")\n\n\n\n\n\n# Create temporary file path\ntemp_path = pybrsa.tempfile_base()\nprint(f\"Temporary path: {temp_path}\")"
+  },
+  {
+    "objectID": "api_manual_backup.html#core-data-fetching",
+    "href": "api_manual_backup.html#core-data-fetching",
+    "title": "API Reference",
+    "section": "",
+    "text": "import pybrsa\n\n# List available data tables\ntables = pybrsa.list_tables(source=\"bddk\", lang=\"en\")\nprint(f\"Available tables: {len(tables)}\")\n\n\n\n\n\n# Fetch Monthly Bulletin data\ndata = pybrsa.fetch_bddk(\n    start_year=2020,\n    start_month=1,\n    end_year=2020,\n    end_month=12,\n    table_no=4,\n    grup_kod=10001\n)\n\n\n\n\n\n# Fetch granular provincial data\nprovince_data = pybrsa.fetch_finturk(\n    start_year=2024,\n    start_month=1,\n    end_year=2024,\n    end_month=1,\n    table_no=2,\n    grup_kod=10001,\n    il=0  # All provinces\n)"
+  },
+  {
+    "objectID": "api_manual_backup.html#utility-functions",
+    "href": "api_manual_backup.html#utility-functions",
+    "title": "API Reference",
+    "section": "",
+    "text": "import pybrsa\n\ndata = pybrsa.fetch_bddk(...)\n# Save to different formats\npybrsa.save_data(data, \"my_data\", format=\"csv\")\npybrsa.save_data(data, \"my_data\", format=\"pkl\")  # Python's .rds\npybrsa.save_data(data, \"my_data\", format=\"xlsx\")\n\n\n\n\n\n# Create temporary file path\ntemp_path = pybrsa.tempfile_base()\nprint(f\"Temporary path: {temp_path}\")"
   }
 ]

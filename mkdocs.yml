@@ -1,0 +1,11 @@
+site_name: pybrsa API
+docs_dir: mkdocs_docs
+
+nav:
+  - API: reference.md
+
+plugins:
+  - mkdocstrings
+
+theme:
+  name: readthedocs

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Getting Started with Turkish Banking Data – pybrsa - Turkish Banking Sector Data</title>
+<title>API Reference – pybrsa - Turkish Banking Sector Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -125,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -147,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Getting Started with Turkish Banking Data</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">API Reference</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -165,23 +165,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#pybrsa-a-python-package-for-turkish-banking-sector-data" id="toc-pybrsa-a-python-package-for-turkish-banking-sector-data" class="nav-link active" data-scroll-target="#pybrsa-a-python-package-for-turkish-banking-sector-data">pybrsa: A Python Package for Turkish Banking Sector Data</a>
+  <li><a href="#pybrsa-api-reference" id="toc-pybrsa-api-reference" class="nav-link active" data-scroll-target="#pybrsa-api-reference">pybrsa API Reference</a>
   <ul class="collapse">
-  <li><a href="#key-features" id="toc-key-features" class="nav-link" data-scroll-target="#key-features">Key Features</a></li>
-  <li><a href="#design-philosophy" id="toc-design-philosophy" class="nav-link" data-scroll-target="#design-philosophy">Design Philosophy</a></li>
-  <li><a href="#related-packages" id="toc-related-packages" class="nav-link" data-scroll-target="#related-packages">Related Packages</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting started</a></li>
+  <li><a href="#core-data-fetching" id="toc-core-data-fetching" class="nav-link" data-scroll-target="#core-data-fetching">Core Data Fetching</a>
+  <ul class="collapse">
+  <li><a href="#list_tables" id="toc-list_tables" class="nav-link" data-scroll-target="#list_tables">`list_tables()`</a></li>
+  <li><a href="#fetch_bddk" id="toc-fetch_bddk" class="nav-link" data-scroll-target="#fetch_bddk">`fetch_bddk()`</a></li>
+  <li><a href="#fetch_finturk" id="toc-fetch_finturk" class="nav-link" data-scroll-target="#fetch_finturk">`fetch_finturk()`</a></li>
+  </ul></li>
+  <li><a href="#utility-functions" id="toc-utility-functions" class="nav-link" data-scroll-target="#utility-functions">Utility Functions</a>
+  <ul class="collapse">
+  <li><a href="#save_data" id="toc-save_data" class="nav-link" data-scroll-target="#save_data">`save_data()`</a></li>
+  <li><a href="#tempfile_base" id="toc-tempfile_base" class="nav-link" data-scroll-target="#tempfile_base">`tempfile_base()`</a></li>
+  </ul></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/obakis/pybrsa/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/obakis/pybrsa/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/obakis/pybrsa/edit/main/api_manual_backup.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/obakis/pybrsa/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Getting Started with Turkish Banking Data</h1>
+<h1 class="title">API Reference</h1>
 </div>
 
 
@@ -198,104 +204,74 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="pybrsa-a-python-package-for-turkish-banking-sector-data" class="level1">
-<h1>pybrsa: A Python Package for Turkish Banking Sector Data</h1>
-<p><a href="https://pypi.org/project/pybrsa/"><img src="https://img.shields.io/pypi/v/pybrsa.png" class="img-fluid" alt="PyPI version"></a> <a href="https://obakis.github.io/pybrsa/"><img src="https://img.shields.io/badge/docs-GitHub_Pages-blue.png" class="img-fluid" alt="Documentation"></a></p>
-<p>A Python package for programmatic access to Turkish banking sector data from the <a href="https://www.bddk.org.tr">Turkish Banking Regulation and Supervision Agency</a> (BRSA, known as BDDK in Turkish). The package provides Python users with a clean interface to fetch monthly and quarterly banking statistics, financial reports, and sectoral indicators directly from BRSA’s official APIs. Specifically, the package retrieves tables from two distinct publication portals maintained by the BRSA:</p>
-<ul>
-<li>The <a href="https://www.bddk.org.tr/bultenaylik/">Monthly Bulletin Portal</a></li>
-<li>The <a href="https://www.bddk.org.tr/BultenFinTurk/">FinTurk Data System</a></li>
-</ul>
-<section id="key-features" class="level2">
-<h2 class="anchored" data-anchor-id="key-features">Key Features</h2>
-<ul>
-<li>Direct API access to BRSA monthly bulletins (17 financial tables)</li>
-<li>Quarterly FinTurk data with city-level granularity (7 tables, 82 cities including ‘HEPSI’ for all cities)</li>
-<li>Consistent parameter interface for both data sources</li>
-<li>Built-in metadata for tables, banking groups, and provinces</li>
-<li>Multiple export formats: CSV, Excel via <code>save_data()</code></li>
-<li>Returns pandas DataFrames ready for analysis</li>
-</ul>
-</section>
-<section id="design-philosophy" class="level2">
-<h2 class="anchored" data-anchor-id="design-philosophy">Design Philosophy</h2>
-<p><strong>Lightweight and Authentic:</strong> Other packages providing access to BDDK data also fetch data programmatically, but they add a heavy translation layer - maintaining manual configuration files to map Turkish column names and categorical values to English. This provides user convenience at a high maintenance cost.</p>
-<p><code>pybrsa</code> takes a different path. It interacts directly with the API and uses the data it returns with minimal alteration:</p>
-<ul>
-<li>For the <strong>Monthly Bulletin</strong>, it uses the <strong>official English column names and labels</strong> provided by the API when <code>lang = "en"</code> is set.</li>
-<li>For the <strong>FinTurk dataset</strong>, where the API provides data only in Turkish, it returns the <strong>authentic Turkish names</strong>.</li>
-</ul>
-<p><strong>This is a deliberate choice.</strong> By avoiding a separate translation file, <code>pybrsa</code> eliminates a major maintenance burden, aiming to adapt instantly to any API changes. This way, the data you see is exactly what the official source provides.</p>
-</section>
-<section id="related-packages" class="level2">
-<h2 class="anchored" data-anchor-id="related-packages">Related Packages</h2>
-<ul>
-<li><p><a href="https://github.com/barbasan/bddk">bddk</a> (Python): Uses manual configuration for translations and column mappings and provides access only to the Monthly Bulletin.</p></li>
-<li><p><a href="https://github.com/urazakgul/bddkdata">bddkdata</a> (Python): Provides similar functionality for Python/pandas users with the same constraints as bddk.<br>
-</p></li>
-<li><p><a href="https://github.com/ozancanozdemir/bddkR">bddkR</a> (R): Uses manual configuration for translations and column mappings and provides access only to the Monthly Bulletin. It is based on ‘bddkdata’</p></li>
-<li><p><a href="https://github.com/obakis/pybrsa">rbrsa</a> R companion to this package with consistent API.</p></li>
-</ul>
-</section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Install from PyPI:</p>
-<div id="20b51ffc" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pip install pybrsa</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>The development version can be installed from GitHub:</p>
-<div id="8a5b6caa" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pip install git<span class="op">+</span>https:<span class="op">//</span>github.com<span class="op">/</span>obakis<span class="op">/</span>pybrsa.git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="pybrsa-api-reference" class="level1">
+<h1>pybrsa API Reference</h1>
+<section id="core-data-fetching" class="level2">
+<h2 class="anchored" data-anchor-id="core-data-fetching">Core Data Fetching</h2>
+<section id="list_tables" class="level3">
+<h3 class="anchored" data-anchor-id="list_tables">`list_tables()`</h3>
+<div id="4c125460" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pybrsa</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># List available data tables</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tables <span class="op">=</span> pybrsa.list_tables(source<span class="op">=</span><span class="st">"bddk"</span>, lang<span class="op">=</span><span class="st">"en"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Available tables: </span><span class="sc">{</span><span class="bu">len</span>(tables)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting started</h2>
-<p><em>A vignette demonstrating how to use main functions, download and save data from both BDDK and FinTurk interface can be found at</em>: <a href="introduction.html" class="uri">Getting Started</a></p>
-<p>The <code>pybrsa</code> package retrieves tables from two distinct publication portalsmaintained by the Turkish Banking Regulation and Supervision Agency (BDDK). Both portals are official sources, but they organize the data differently:</p>
-<ul>
-<li>The <a href="https://www.bddk.org.tr/bultenaylik/">Monthly Bulletin Portal</a> provides high-level, summary reports designed for general consumption and quick overviews of monthly trends without any geographic coverage.</li>
-<li>The <a href="https://www.bddk.org.tr/BultenFinTurk/">FinTurk Data System</a> provides granular, detailed data, including statistics broken down by province, whereas the standard Monthly Bulletin offers national-level aggregates.</li>
-</ul>
-<div id="1f52dce7" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">## R users: to use list_tables() as in R you can do</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from pybrsa import list_tables, fetch_bddk</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">## or importing everything</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># from pybrsa import * </span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pybrsa</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Explore available tables</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>pybrsa.list_tables(<span class="st">"bddk"</span>)  <span class="co"># For English names</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>pybrsa.list_tables(<span class="st">"bddk"</span>, <span class="st">"tr"</span>)  <span class="co"># For Turkish names</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>pybrsa.list_tables(<span class="st">"finturk"</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Explore banking groups</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>pybrsa.list_groups(<span class="st">"bddk"</span>)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>pybrsa.list_groups(<span class="st">"bddk"</span>, <span class="st">"tr"</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>pybrsa.list_groups(<span class="st">"finturk"</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch monthly data (Table 15: Ratios)</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pybrsa.fetch_bddk(</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    start_year<span class="op">=</span><span class="dv">2024</span>, start_month<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    end_year<span class="op">=</span><span class="dv">2024</span>, end_month<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    table_no<span class="op">=</span><span class="dv">15</span>, grup_kod<span class="op">=</span><span class="dv">10001</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch quarterly FinTurk data</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>q_data <span class="op">=</span> pybrsa.fetch_finturk(</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    start_year<span class="op">=</span><span class="dv">2024</span>, start_quarter<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    end_year<span class="op">=</span><span class="dv">2024</span>, end_quarter<span class="op">=</span><span class="dv">9</span>,</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    table_no<span class="op">=</span><span class="dv">1</span>, grup_kod<span class="op">=</span><span class="dv">10007</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Save results to CSV</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>q_data.to_csv(<span class="st">"finturk_data.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use the save_data function for multiple formats</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>pybrsa.save_data(q_data, <span class="st">"finturk_data"</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="fetch_bddk" class="level3">
+<h3 class="anchored" data-anchor-id="fetch_bddk">`fetch_bddk()`</h3>
+<div id="0c96e056" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch Monthly Bulletin data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pybrsa.fetch_bddk(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    start_year<span class="op">=</span><span class="dv">2020</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    start_month<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    end_year<span class="op">=</span><span class="dv">2020</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    end_month<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    table_no<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    grup_kod<span class="op">=</span><span class="dv">10001</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="fetch_finturk" class="level3">
+<h3 class="anchored" data-anchor-id="fetch_finturk">`fetch_finturk()`</h3>
+<div id="0eabc327" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch granular provincial data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>province_data <span class="op">=</span> pybrsa.fetch_finturk(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    start_year<span class="op">=</span><span class="dv">2024</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    start_month<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    end_year<span class="op">=</span><span class="dv">2024</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    end_month<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    table_no<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    grup_kod<span class="op">=</span><span class="dv">10001</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    il<span class="op">=</span><span class="dv">0</span>  <span class="co"># All provinces</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="utility-functions" class="level2">
+<h2 class="anchored" data-anchor-id="utility-functions">Utility Functions</h2>
+<section id="save_data" class="level3">
+<h3 class="anchored" data-anchor-id="save_data">`save_data()`</h3>
+<div id="6de877d1" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pybrsa</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pybrsa.fetch_bddk(...)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save to different formats</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>pybrsa.save_data(data, <span class="st">"my_data"</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>pybrsa.save_data(data, <span class="st">"my_data"</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"pkl"</span>)  <span class="co"># Python's .rds</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>pybrsa.save_data(data, <span class="st">"my_data"</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="tempfile_base" class="level3">
+<h3 class="anchored" data-anchor-id="tempfile_base">`tempfile_base()`</h3>
+<div id="f6519cdb" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create temporary file path</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>temp_path <span class="op">=</span> pybrsa.tempfile_base()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Temporary path: </span><span class="sc">{</span>temp_path<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
+</section>
 </section>
 </section>
 
@@ -708,7 +684,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>   
     <div class="nav-footer-center">
 <p>Contact: ozanbakis@gmail.com</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/obakis/pybrsa/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/obakis/pybrsa/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/obakis/pybrsa/edit/main/api_manual_backup.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/obakis/pybrsa/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with Quarto</p>
 </div>

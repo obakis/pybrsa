@@ -7,17 +7,17 @@ title: "API Reference"
 ## Core Data Fetching
 
 ### \`list_tables()\`
-\`\`\`{python}
+```{python}
 #| eval: false
 import pybrsa
 
 # List available data tables
 tables = pybrsa.list_tables(source="bddk", lang="en")
 print(f"Available tables: {len(tables)}")
-\`\`\`
+```
 
 ### \`fetch_bddk()\`
-\`\`\`{python}
+```{python}
 #| eval: false
 # Fetch Monthly Bulletin data
 data = pybrsa.fetch_bddk(
@@ -28,10 +28,10 @@ data = pybrsa.fetch_bddk(
     table_no=4,
     grup_kod=10001
 )
-\`\`\`
+```
 
 ### \`fetch_finturk()\`
-\`\`\`{python}
+```{python}
 #| eval: false
 # Fetch granular provincial data
 province_data = pybrsa.fetch_finturk(
@@ -43,12 +43,12 @@ province_data = pybrsa.fetch_finturk(
     grup_kod=10001,
     il=0  # All provinces
 )
-\`\`\`
+```
 
 ## Utility Functions
 
 ### \`save_data()\`
-\`\`\`{python}
+```{python}
 #| eval: false
 import pybrsa
 
@@ -57,12 +57,12 @@ data = pybrsa.fetch_bddk(...)
 pybrsa.save_data(data, "my_data", format="csv")
 pybrsa.save_data(data, "my_data", format="pkl")  # Python's .rds
 pybrsa.save_data(data, "my_data", format="xlsx")
-\`\`\`
+```
 
 ### \`tempfile_base()\`
-\`\`\`{python}
+```{python}
 #| eval: false
 # Create temporary file path
 temp_path = pybrsa.tempfile_base()
 print(f"Temporary path: {temp_path}")
-\`\`\`
+```
