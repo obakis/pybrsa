@@ -28,11 +28,22 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          # Install everything in one command (simpler)
-          pip install pybrsa jupyter nbformat pyyaml pandas matplotlib seaborn
+          # DEBUG: Python and path info
+          echo "Python path: $(which python)"
+          python --version
+          python -c "import sys; print('Python path:', sys.path)"
           
-          # Quick verification
-          python -c "import pybrsa; import jupyter; print('Imports OK')"
+          # DEBUG: Check typing module
+          python -c "from typing import Union; print('Union import test OK')"
+          
+          # DEBUG: Check utils.py directly
+          echo "=== First 10 lines of utils.py ==="
+          head -10 pybrsa/utils.py
+          echo "=== Checking import ==="
+          python -c "from pybrsa.utils import plaka_to_city; print('Direct import OK')"
+          
+          # Install packages
+          pip install pybrsa jupyter nbformat pyyaml pandas matplotlib seaborn
       
       - name: Render Quarto website
         run: |
