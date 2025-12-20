@@ -28,21 +28,18 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          # DEBUG: Python info
-          echo "Python path: $(which python)"
-          python --version
-          
-          # 1. FIRST install everything
+          # Install everything
           pip install pybrsa jupyter nbformat pyyaml pandas matplotlib seaborn
-          
-          # 2. THEN test imports
-          echo "=== Testing imports ==="
-          python -c "from typing import Union; print('Union import OK')"
-          python -c "import pandas; import jupyter; print('Pandas/Jupyter OK')"
+          # Test
           python -c "from pybrsa.utils import plaka_to_city; print('pybrsa import OK')"
-          
-          echo "All imports successful!"
       
+      - name: Set Quarto Python Path
+        run: |
+          # Tell Quarto which Python to use
+          PYTHON_PATH=$(which python)
+          echo "Using Python at: $PYTHON_PATH"
+          echo "QUARTO_PYTHON=$PYTHON_PATH" >> $GITHUB_ENV
+
       - name: Render Quarto website
         run: |
           cd docs
