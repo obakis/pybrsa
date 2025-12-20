@@ -1,3 +1,4 @@
+from typing import Union, List
 from .data import cities  # ← Relative import (fails in REPL)
 #from data import cities  # ← Absolute import (works in REPL)
 
