@@ -8,7 +8,7 @@ from .info import list_cities, list_groups, list_tables
 from .io import save_data, tempfile_base
 from .data import cities  
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 __all__ = [
     "fetch_bddk",
     "fetch_bddk1", 
