@@ -58,8 +58,7 @@ def save_data(
     valid_formats = ["pkl", "csv", "xlsx"]
     if format not in valid_formats:
         raise ValueError(
-            f"Invalid format. Must be one of: {
-                ', '.join(valid_formats)}")
+            f"Invalid format. Must be one of: {', '.join(valid_formats)}")
     if filename is None or filename == "":
         raise ValueError("Argument 'filename' is required and cannot be empty")
        
