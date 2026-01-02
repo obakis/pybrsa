@@ -58,7 +58,7 @@ Before requesting data, it's useful to explore what tables and banking groups ar
 
   - The [Monthly Bulletin Portal](https://www.bddk.org.tr/bultenaylik) provides 
 high-level, summary reports designed for general consumption and quick  overviews of monthly trends without any geographic coverage.
-  - The [FinTurk Data System](https://www.bddk.org.tr/bultenfinturk/) provides granular, detailed data, including statistics broken down by province, whereas the standard Monthly Bulletin offers national-level aggregates.
+  - The [FinTurk Data System](https://www.bddk.org.tr/bultenfinturk) provides granular, detailed data, including statistics broken down by province, whereas the standard Monthly Bulletin offers national-level aggregates.
 
 **Important note**: Currently, only a single `grup_kod` can be specified per request.  The underlying BDDK API supports multiple `grup_kod` codes, and this functionality will be added in a future version.
 

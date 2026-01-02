@@ -1,18 +1,30 @@
 
+
+<!--  README.md is generated from [docs/index.qmd](docs/index.qmd). Please edit that file. -->
+
 # `pybrsa`: A Python Package for Turkish Banking Sector Data
 
-[![PyPI version](https://img.shields.io/pypi/v/pybrsa)](https://pypi.org/project/pybrsa/)
-[![Documentation](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://obakis.github.io/pybrsa/)
+[![PyPI
+version](https://img.shields.io/pypi/v/pybrsa.png)](https://pypi.org/project/pybrsa/)
+[![Documentation](https://img.shields.io/badge/docs-GitHub_Pages-blue.png)](https://obakis.github.io/pybrsa/)
 
-A Python package for programmatic access to Turkish banking sector data from the [Turkish Banking Regulation and Supervision Agency](https://www.bddk.org.tr) (BRSA, known as BDDK in Turkish). The package provides Python users with a clean interface to fetch monthly and quarterly banking statistics, financial reports, and sectoral indicators directly from BRSA's official APIs. Specifically, the package retrieves tables from two distinct publication portals maintained by the BRSA:
+A Python package for programmatic access to Turkish banking sector data
+from the [Turkish Banking Regulation and Supervision
+Agency](https://www.bddk.org.tr) (BRSA, known as BDDK in Turkish). The
+package provides Python users with a clean interface to fetch monthly
+and quarterly banking statistics, financial reports, and sectoral
+indicators directly from BRSA’s official APIs. Specifically, the package
+retrieves tables from two distinct publication portals maintained by the
+BRSA:
 
-- The [Monthly Bulletin Portal](https://www.bddk.org.tr/bultenaylik/){.uri} 
-- The [FinTurk Data System](https://www.bddk.org.tr/bultenfinTurk/){.uri} 
+- The [Monthly Bulletin Portal](https://www.bddk.org.tr/bultenaylik/)
+- The [FinTurk Data System](https://www.bddk.org.tr/bultenfinturk/)
 
 ## Key Features
 
 - Direct API access to BRSA monthly bulletins (17 financial tables)
-- Quarterly FinTurk data with city-level granularity (7 tables, 82 cities including 'HEPSI' for all cities)
+- Quarterly FinTurk data with city-level granularity (7 tables, 82
+  cities including ‘HEPSI’ for all cities)
 - Consistent parameter interface for both data sources
 - Built-in metadata for tables, banking groups, and provinces
 - Multiple export formats: CSV, Excel via `save_data()`
@@ -20,50 +32,61 @@ A Python package for programmatic access to Turkish banking sector data from the
 
 ## Design Philosophy
 
-**Lightweight and Authentic:** Other packages providing access to BDDK data also fetch data programmatically, but they add a heavy translation layer - maintaining manual configuration files to map Turkish column names and categorical values to English. This provides user convenience at a high maintenance cost.
+**Lightweight and Authentic:** Other packages providing access to BDDK
+data also fetch data programmatically, but they add a heavy translation
+layer - maintaining manual configuration files to map Turkish column
+names and categorical values to English. This provides user convenience
+at a high maintenance cost.
 
-`pybrsa` takes a different path. It interacts directly with the API and uses the data it returns with minimal alteration:
+`pybrsa` takes a different path. It interacts directly with the API and
+uses the data it returns with minimal alteration:
 
-- For the **Monthly Bulletin**, it uses the **official English column names and labels** provided by the API when `lang = "en"` is set.
-- For the **FinTurk dataset**, where the API provides data only in Turkish, it returns the **authentic Turkish names**.
+- For the **Monthly Bulletin**, it uses the **official English column
+  names and labels** provided by the API when `lang = "en"` is set.
+- For the **FinTurk dataset**, where the API provides data only in
+  Turkish, it returns the **authentic Turkish names**.
 
-**This is a deliberate choice.** By avoiding a separate translation file, `pybrsa` eliminates a major maintenance burden, aiming to adapt instantly to any API changes. This way, the data you see is exactly what the official source provides.
+**This is a deliberate choice.** By avoiding a separate translation
+file, `pybrsa` eliminates a major maintenance burden, aiming to adapt
+instantly to any API changes. This way, the data you see is exactly what
+the official source provides.
 
 ## Related Packages
 
-- [bddk](https://github.com/barbasan/bddk){.uri}  (Python): Uses manual
+- [bddk](https://github.com/barbasan/bddk/) (Python): Uses manual
   configuration for translations and column mappings and provides access
   only to the Monthly Bulletin.
-- [bddkdata](https://github.com/urazakgul/bddkdata){.uri}  (Python): Provides
+
+- [bddkdata](https://github.com/urazakgul/bddkdata/) (Python): Provides
   similar functionality for Python/pandas users with the same
   constraints as bddk.  
-- [rbrsa](https://github.com/obakis/pybrsa){.uri}  R companion to this package with consistent API.
-- [bddkR](https://github.com/ozancanozdemir/bddkR){.uri}  (R): Uses manual
+
+- [bddkR](https://github.com/ozancanozdemir/bddkR/) (R): Uses manual
   configuration for translations and column mappings and provides access
-  only to the Monthly Bulletin. It is based on 'bddkdata'
+  only to the Monthly Bulletin. It is based on ‘bddkdata’
 
-
-
+- [rbrsa](https://github.com/obakis/rbrsa/) R companion to this package
+  with consistent API.
 
 ## Installation
 
 Install from PyPI:
 
-```bash
+``` python
 pip install pybrsa
 ```
 
 The development version can be installed from GitHub:
 
-``` bash
+``` python
 pip install git+https://github.com/obakis/pybrsa.git
 ```
 
 ## Getting started
 
 *A vignette demonstrating how to use main functions, download and save
-data from both BDDK and FinTurk interface can be found at*:
-<https://obakis.github.io/pybrsa/articles/introduction.html>
+data from both BDDK and FinTurk interface can be found at*: [Getting
+Started](https://obakis.github.io/pybrsa/introduction.html)
 
 The `pybrsa` package retrieves tables from two distinct publication
 portalsmaintained by the Turkish Banking Regulation and Supervision
@@ -73,7 +96,7 @@ data differently:
 - The [Monthly Bulletin Portal](https://www.bddk.org.tr/bultenaylik/)
   provides high-level, summary reports designed for general consumption
   and quick overviews of monthly trends without any geographic coverage.
-- The [FinTurk Data System](https://www.bddk.org.tr/BultenFinTurk/)
+- The [FinTurk Data System](https://www.bddk.org.tr/bultenfinturk/)
   provides granular, detailed data, including statistics broken down by
   province, whereas the standard Monthly Bulletin offers national-level
   aggregates.
@@ -111,7 +134,8 @@ q_data = pybrsa.fetch_finturk(
 )
 
 # Save results to CSV
-# q_data.to_csv("my_file.csv", index=False)
-temp_path = pybrsa.tempfile_base()
-pybrsa.save_data(q_data, "temp_path", format="csv")
+q_data.to_csv("finturk_data.csv", index=False)
+
+# Or use the save_data function for multiple formats
+pybrsa.save_data(q_data, "finturk_data", format="csv")
 ```

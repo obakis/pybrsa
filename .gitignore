@@ -30,6 +30,7 @@ __pycache__/
 ## ========================================
 notes/
 exos/
+docs/_metadata-note.html
 
 ## ========================================
 ## Personal helper scripts
@@ -37,4 +38,3 @@ exos/
 [Mm]akefile
 _create_*
 _update_*
-_release_*

@@ -1,6 +1,9 @@
 ---
-title: "Getting Started with Turkish Banking Data"
-format: html
+#title: 
+format:
+  html: default 
+  gfm:
+    include-before-body: _metadata-note.html 
 engine: jupyter
 execute:
   warning: false
@@ -8,14 +11,14 @@ execute:
 kernel: python3-pipx
 ---
 
-# pybrsa: A Python Package for Turkish Banking Sector Data
+# `pybrsa`: A Python Package for Turkish Banking Sector Data
 
 [![PyPI version](https://img.shields.io/pypi/v/pybrsa)](https://pypi.org/project/pybrsa/) [![Documentation](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://obakis.github.io/pybrsa/)
 
 A Python package for programmatic access to Turkish banking sector data from the [Turkish Banking Regulation and Supervision Agency](https://www.bddk.org.tr) (BRSA, known as BDDK in Turkish). The package provides Python users with a clean interface to fetch monthly and quarterly banking statistics, financial reports, and sectoral indicators directly from BRSA's official APIs. Specifically, the package retrieves tables from two distinct publication portals maintained by the BRSA:
 
 -   The [Monthly Bulletin Portal](https://www.bddk.org.tr/bultenaylik/)
--   The [FinTurk Data System](https://www.bddk.org.tr/BultenFinTurk/)
+-   The [FinTurk Data System](https://www.bddk.org.tr/bultenfinturk/)
 
 ## Key Features
 
@@ -39,13 +42,13 @@ A Python package for programmatic access to Turkish banking sector data from the
 
 ## Related Packages
 
--   [bddk](https://github.com/barbasan/bddk) (Python): Uses manual configuration for translations and column mappings and provides access only to the Monthly Bulletin.
+-   [bddk](https://github.com/barbasan/bddk/) (Python): Uses manual configuration for translations and column mappings and provides access only to the Monthly Bulletin.
 
--   [bddkdata](https://github.com/urazakgul/bddkdata) (Python): Provides similar functionality for Python/pandas users with the same constraints as bddk.\
+-   [bddkdata](https://github.com/urazakgul/bddkdata/) (Python): Provides similar functionality for Python/pandas users with the same constraints as bddk.\
 
--   [bddkR](https://github.com/ozancanozdemir/bddkR) (R): Uses manual configuration for translations and column mappings and provides access only to the Monthly Bulletin. It is based on 'bddkdata'
+-   [bddkR](https://github.com/ozancanozdemir/bddkR/) (R): Uses manual configuration for translations and column mappings and provides access only to the Monthly Bulletin. It is based on 'bddkdata'
 
--   [rbrsa](https://github.com/obakis/pybrsa) R companion to this package with consistent API.
+-   [rbrsa](https://github.com/obakis/rbrsa/) R companion to this package with consistent API.
 
 ## Installation
 
@@ -67,12 +70,12 @@ pip install git+https://github.com/obakis/pybrsa.git
 
 ## Getting started
 
-*A vignette demonstrating how to use main functions, download and save data from both BDDK and FinTurk interface can be found at*: [Getting Started](introduction.html){.uri}
+*A vignette demonstrating how to use main functions, download and save data from both BDDK and FinTurk interface can be found at*: [Getting Started](https://obakis.github.io/pybrsa/introduction.html)
 
 The `pybrsa` package retrieves tables from two distinct publication portalsmaintained by the Turkish Banking Regulation and Supervision Agency (BDDK). Both portals are official sources, but they organize the data differently:
 
 -   The [Monthly Bulletin Portal](https://www.bddk.org.tr/bultenaylik/) provides high-level, summary reports designed for general consumption and quick overviews of monthly trends without any geographic coverage.
--   The [FinTurk Data System](https://www.bddk.org.tr/BultenFinTurk/) provides granular, detailed data, including statistics broken down by province, whereas the standard Monthly Bulletin offers national-level aggregates.
+-   The [FinTurk Data System](https://www.bddk.org.tr/bultenfinturk/) provides granular, detailed data, including statistics broken down by province, whereas the standard Monthly Bulletin offers national-level aggregates.
 
 ```{python}
 #| echo: true
